@@ -1,4 +1,8 @@
-@value makerLightGrey from './common/color.css';
+@value makerLightGrey from './common/colors.css';
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -11,4 +15,9 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+ul,
+li {
+  list-style: none;
 }
