@@ -29,7 +29,11 @@
 }
 
 .fileInput {
+  display: flex;
   padding: 0;
+}
+
+.fileInput > button {
   flex: 1 1 50%;
 }
 
