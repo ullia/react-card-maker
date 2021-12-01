@@ -10,23 +10,25 @@ const CardEditForm = ({ card }) => {
   const onTp = (event) => {
     const txt = event.currentTarget.value;
     console.log(txt);
-    const onSubmit = () => {};
   };
+
+  const onSubmit = () => {};
+
   return (
     <form className={styles.form}>
       <input ref={nameRef} name='name' onKeyPress={onTp} type='text' value={name} className={styles.input} />
       <input name='company' type='text' value={company} className={styles.input} />
-      <select name='theme' type='select' className={styles.select}>
+      <select name='theme' type='select' value={theme} className={styles.select}>
         <option value='Light'>Light</option>
         <option value='Dark'>Dark</option>
         <option value='Coloful'>Coloful</option>
       </select>
       <input name='title' type='text' value={title} className={styles.input} />
       <input name='email' type='text' value={email} className={styles.input} />
-      <textarea className={styles.textarea} name='message' id='' cols='30' rows='10'></textarea>
+      <textarea className={styles.textarea} name='message' id='' value={message} cols='30' rows='10'></textarea>
       <div className={styles.fileInput}>
         <ImageFileInput />
-        <Button name='Delete' onClick={onsubmit} />
+        <Button name='Delete' onClick={onSubmit} />
       </div>
     </form>
   );
