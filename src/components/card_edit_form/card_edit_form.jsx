@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Button from '../button/button';
 import styles from './card_edit_form.module.css';
 
@@ -30,7 +30,9 @@ const CardEditForm = ({ FileInput, card, updateCard, deleteCard }) => {
     });
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    deleteCard(card);
+  };
 
   return (
     <form className={styles.form}>

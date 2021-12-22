@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 80rem;
   height: 100%;
   background: makerWhite;
 }
@@ -12,6 +13,7 @@
 .container {
   display: flex;
   flex: 1;
+  min-height: 0; /* 각각 스크롤링 하기위해서 필요하다 */
 }
 
 @media screen and (max-width: mediaQuery) {

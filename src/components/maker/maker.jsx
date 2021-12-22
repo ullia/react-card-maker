@@ -1,77 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Editor from '../editor/editor';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 
-const Maker = ({ FileInput, authService }) => {
-  const [cards, setCards] = useState({
-    1: {
-      id: '1',
-      name: 'ullia',
-      company: 'Santel',
-      theme: 'dark',
-      title: 'FrontEnd Developer',
-      email: 'ullia21@santelglobal.com',
-      message: 'Hi, everyone!',
-      fileName: '',
-      fileURL: '/images/default_logo.png',
-    },
-    2: {
-      id: '2',
-      name: 'ullia2',
-      company: 'Santel',
-      theme: 'light',
-      title: 'FrontEnd Developer',
-      email: 'ullia21@santelglobal.com',
-      message: 'Hi, everyone!',
-      fileName: '',
-      fileURL: null,
-    },
-    3: {
-      id: '3',
-      name: 'ullia3',
-      company: 'Santel',
-      theme: 'colorful',
-      title: 'FrontEnd Developer',
-      email: 'ullia21@santelglobal.com',
-      message: 'Hi, everyone!',
-      fileName: '',
-      fileURL: null,
-    },
-  });
-  const [userId, setUserId] = useState(0);
-
+const Maker = ({ FileInput, authService, cardRepository }) => {
+  const locationState = useLocation().state;
+  // console.log(locationState);
   const navigate = useNavigate();
+  const [cards, setCards] = useState({});
+  const [userId, setUserId] = useState(locationState && locationState.id);
+
   const onLogout = () => {
     authService.logout();
   };
 
   useEffect(() => {
     authService.onAuthChange(user => {
-      if (!user) {
+      if (user) {
+        setUserId(user.uid);
+      } else {
         navigate('/');
       }
     });
   });
 
-  const addCard = card => {
-    console.log(card);
-    const updated = [...cards, card];
-    setCards(updated);
-  };
+  // const addCard = card => {
+  //   console.log(card);
+  //   const updated = [...cards, card];
+  //   setCards(updated);
+  // };
 
   const createOrUpdateCard = card => {
-    console.log(card);
-
     setCards(cards => {
-      console.log(cards);
       const updated = { ...cards };
       updated[card.id] = card;
       return updated;
     });
+    console.log('userID : ' + userId);
+    console.log('cardID : ' + card.id);
+    cardRepository.saveCard(userId, card);
   };
 
   const deleteCard = card => {
@@ -80,6 +50,7 @@ const Maker = ({ FileInput, authService }) => {
       delete updated[card.id];
       return updated;
     });
+    cardRepository.removeCard(userId, card);
   };
 
   return (
