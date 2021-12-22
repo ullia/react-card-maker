@@ -6,9 +6,9 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 
-const Maker = ({ authService }) => {
-  const [cards, setCards] = useState([
-    {
+const Maker = ({ FileInput, authService }) => {
+  const [cards, setCards] = useState({
+    1: {
       id: '1',
       name: 'ullia',
       company: 'Santel',
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
       fileName: '',
       fileURL: '/images/default_logo.png',
     },
-    {
+    2: {
       id: '2',
       name: 'ullia2',
       company: 'Santel',
@@ -30,7 +30,7 @@ const Maker = ({ authService }) => {
       fileName: '',
       fileURL: null,
     },
-    {
+    3: {
       id: '3',
       name: 'ullia3',
       company: 'Santel',
@@ -41,7 +41,7 @@ const Maker = ({ authService }) => {
       fileName: '',
       fileURL: null,
     },
-  ]);
+  });
   const [userId, setUserId] = useState(0);
 
   const navigate = useNavigate();
@@ -50,24 +50,49 @@ const Maker = ({ authService }) => {
   };
 
   useEffect(() => {
-    authService.onAuthChange((user) => {
+    authService.onAuthChange(user => {
       if (!user) {
         navigate('/');
       }
     });
   });
 
-  const addCard = (card) => {
+  const addCard = card => {
     console.log(card);
     const updated = [...cards, card];
     setCards(updated);
+  };
+
+  const createOrUpdateCard = card => {
+    console.log(card);
+
+    setCards(cards => {
+      console.log(cards);
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
+  };
+
+  const deleteCard = card => {
+    setCards(cards => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
   };
 
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor cards={cards} addCard={addCard} />
+        <Editor
+          FileInput={FileInput}
+          cards={cards}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
+          deleteCard={deleteCard}
+        />
         <Preview cards={cards} />
       </div>
       <Footer />

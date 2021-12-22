@@ -1,33 +1,95 @@
 import React, { useRef, useState } from 'react';
 import Button from '../button/button';
-import ImageFileInput from '../image_file_input/image_file_input';
 import styles from './card_edit_form.module.css';
 
-const CardEditForm = ({ card }) => {
-  const { name, company, title, email, message, theme, fileName, fileURL } = card;
+const CardEditForm = ({ FileInput, card, updateCard, deleteCard }) => {
+  const { name, company, title, email, message, theme, fileName } = card;
   const nameRef = useRef();
+  const companyRef = useRef();
+  const themeRef = useRef();
+  const titleRef = useRef();
+  const emailRef = useRef();
+  const messageRef = useRef();
 
-  const onTp = (event) => {
-    const txt = event.currentTarget.value;
-    console.log(txt);
+  const onChange = event => {
+    if (event.currentTarget == null) {
+      return;
+    }
+    event.preventDefault();
+    updateCard({
+      ...card,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
+  };
+
+  const onFileChange = file => {
+    updateCard({
+      ...card,
+      fileName: file.name,
+      fileURL: file.url,
+    });
   };
 
   const onSubmit = () => {};
 
   return (
     <form className={styles.form}>
-      <input ref={nameRef} name='name' onKeyPress={onTp} type='text' value={name} className={styles.input} />
-      <input name='company' type='text' value={company} className={styles.input} />
-      <select name='theme' type='select' value={theme} className={styles.select}>
-        <option value='Light'>Light</option>
-        <option value='Dark'>Dark</option>
-        <option value='Coloful'>Coloful</option>
+      <input
+        ref={nameRef}
+        name='name'
+        type='text'
+        value={name}
+        className={styles.input}
+        onChange={onChange}
+      />
+      <input
+        ref={companyRef}
+        name='company'
+        type='text'
+        value={company}
+        className={styles.input}
+        onChange={onChange}
+      />
+      <select
+        ref={themeRef}
+        name='theme'
+        type='select'
+        value={theme}
+        className={styles.select}
+        onChange={onChange}
+      >
+        <option value='light'>light</option>
+        <option value='dark'>dark</option>
+        <option value='coloful'>coloful</option>
       </select>
-      <input name='title' type='text' value={title} className={styles.input} />
-      <input name='email' type='text' value={email} className={styles.input} />
-      <textarea className={styles.textarea} name='message' id='' value={message} cols='30' rows='10'></textarea>
+      <input
+        ref={titleRef}
+        name='title'
+        type='text'
+        value={title}
+        className={styles.input}
+        onChange={onChange}
+      />
+      <input
+        ref={emailRef}
+        name='email'
+        type='text'
+        value={email}
+        className={styles.input}
+        onChange={onChange}
+      />
+      <textarea
+        ref={messageRef}
+        className={styles.textarea}
+        name='message'
+        id=''
+        value={message}
+        cols='30'
+        rows='10'
+        onChange={onChange}
+      ></textarea>
       <div className={styles.fileInput}>
-        <ImageFileInput />
+        <FileInput name={fileName} onFileChange={onFileChange} />
         <Button name='Delete' onClick={onSubmit} />
       </div>
     </form>
