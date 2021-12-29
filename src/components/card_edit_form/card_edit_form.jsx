@@ -62,7 +62,7 @@ const CardEditForm = ({ FileInput, card, updateCard, deleteCard }) => {
       >
         <option value='light'>light</option>
         <option value='dark'>dark</option>
-        <option value='coloful'>coloful</option>
+        <option value='colorful'>colorful</option>
       </select>
       <input
         ref={titleRef}
