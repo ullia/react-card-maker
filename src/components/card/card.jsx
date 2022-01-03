@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './card.module.css';
 
 const DEFAULT_IMAGE = '/images/default_logo.png';
@@ -33,4 +33,4 @@ function getStyles(theme) {
   }
 }
 
-export default Card;
+export default memo(Card);

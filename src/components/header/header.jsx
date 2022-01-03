@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './header.module.css';
 
 const Header = ({ onLogout }) => {
@@ -15,4 +15,4 @@ const Header = ({ onLogout }) => {
   );
 };
 
-export default Header;
+export default memo(Header);

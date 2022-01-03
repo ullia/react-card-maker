@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Editor from '../editor/editor';
 import Footer from '../footer/footer';
@@ -13,9 +13,9 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
   const [cards, setCards] = useState({});
   const [userId, setUserId] = useState(locationState && locationState.id);
 
-  const onLogout = () => {
+  const onLogout = useCallback(() => {
     authService.logout();
-  };
+  }, [authService]);
 
   useEffect(() => {
     if (!userId) {
@@ -43,16 +43,19 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
   //   setCards(updated);
   // };
 
-  const createOrUpdateCard = card => {
-    setCards(cards => {
-      const updated = { ...cards };
-      updated[card.id] = card;
-      return updated;
-    });
-    console.log('userID : ' + userId);
-    console.log('cardID : ' + card.id);
-    cardRepository.saveCard(userId, card);
-  };
+  const createOrUpdateCard = useCallback(
+    card => {
+      setCards(cards => {
+        const updated = { ...cards };
+        updated[card.id] = card;
+        return updated;
+      });
+      // console.log('userID : ' + userId);
+      // console.log('cardID : ' + card.id);
+      cardRepository.saveCard(userId, card);
+    },
+    [userId, cardRepository],
+  );
 
   const deleteCard = card => {
     setCards(cards => {
